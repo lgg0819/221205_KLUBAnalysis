@@ -1,0 +1,7 @@
+Universe = vanilla
+Executable = /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/221214/postscript.sh
+input = /dev/null
+output = /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/221214/out/post.out
+error  = /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/221214/err/post.err
+getenv = true
+queue

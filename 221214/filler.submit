@@ -1,0 +1,10 @@
+Universe = vanilla
+Executable = /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/221214/filler.sh
+input = /dev/null
+output = /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/221214/out/$(ClusterId)$(ProcId).out
+error  = /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/221214/err/$(ClusterId)$(ProcId).err
+getenv = true
++JobFlavour = "longlunch"
++SingularityCmd = ""
+Arguments = $(NAME) 
+queue
