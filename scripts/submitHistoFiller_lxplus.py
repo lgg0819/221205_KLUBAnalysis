@@ -22,9 +22,16 @@ def make_parser():
 
 
 def create_dir(d):
+    print('@@ path of d : ', os.path.exists(d), '@@')
     if not os.path.exists(d):
         print("{} does not exist. Creating now".format(d))
         os.makedirs(d)
+
+
+#    if not os.path.exists(dest):
+#        print("{} does not exist. Creating now".format(dest))
+#        os.makedirs(dest)
+
 
 
 def write_filler_executable(scriptpath, exe, cfg, njobs):
@@ -35,8 +42,14 @@ def write_filler_executable(scriptpath, exe, cfg, njobs):
         write(s,'cd {} || exit 1'.format(os.getcwd()))
         write(s,'export SCRAM_ARCH=slc6_amd64_gcc491')
         write(s,'eval `scram r -sh`')
-        write(s,'source scripts/setup.sh')
+#        write(s,'source /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/scripts/setup.sh')
+        write(s,'source ./scripts/setup.sh')
         command = (exe + ' ' + cfg + ' ${1}' + ' ' + str(njobs))
+
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        print('command : ', command)
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
         write(s,command)
         os.system('chmod u+rwx {}'.format(scriptpath))
 
@@ -54,6 +67,11 @@ def write_submit_file(submit_file, executable, out_dir, err_dir):
         write(s,'Arguments = $(NAME) ')
         write(s,'queue') 
 
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        print('no error at submitHistoFiller_lxplus.py (1)')
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
+
 
 def write_postscript(postscript, outdir,):
     with open(postscript, 'w') as ps:
@@ -63,12 +81,21 @@ def write_postscript(postscript, outdir,):
         write(ps,'cd {} || exit 1'.format(os.getcwd()))
         write(ps,'export SCRAM_ARCH=slc6_amd64_gcc491')
         write(ps,'eval `scram r -sh`')
-        write(ps,'source scripts/setup.sh')
+#        write(ps,'source /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/scripts/setup.sh')
+        write(ps,'source ./scripts/setup.sh')
+
+
         write(ps,'cd {} || exit 1'.format(outdir))
         write(ps,'hadd outPlotter.root *.root')
         write(ps,'cd - || exit 1')
+#        write(ps,'python /afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/scripts/combineFillerOutputs.py --dir {}'.format(outdir))
         write(ps,'python scripts/combineFillerOutputs.py --dir {}'.format(outdir))
         os.system('chmod u+rwx ' + postscript)
+
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        print('no error at submitHistoFiller_lxplus.py (2)')
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
 
 
 def write_postscript_submit(submit_file, executable, out_dir, err_dir):
@@ -81,6 +108,11 @@ def write_postscript_submit(submit_file, executable, out_dir, err_dir):
         write(s,'getenv = true')
         write(s,'queue') 
 
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        print('no error at submitHistoFiller_lxplus.py (3)')
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
+
 def write_dagfile(dagfile, njobs, submit_file, postscript_submit):
     with open(dagfile, 'w') as dag:
         for job in range(njobs):
@@ -89,6 +121,11 @@ def write_dagfile(dagfile, njobs, submit_file, postscript_submit):
         write(dag, 'JOB Cleanup {}'.format(postscript_submit))
         children = ' '.join([str(i) for i in range(njobs)])
         write(dag, 'PARENT {} CHILD Cleanup'.format(children))
+
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+        print('no error at submitHistoFiller_lxplus.py (4)')
+        print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
 
 #hourdate = datetime.datetime.now().strftime('%Y.%m.%d_%H.%M.%S').replace('.','-')
 
@@ -100,6 +137,12 @@ def main(submit_dir,
          condor_executable='filler.sh',
          dry=False):
     # check if submit_dir exists
+
+#    if not os.path.exists(submit_dir):
+#        print("{} does not exist. Creating now".format(submit_dir))
+#        os.makedirs(submit_dir)
+
+
     if os.path.exists(submit_dir):
         print("{} already exists. Checking if it's empty.".format(submit_dir))
         contents = os.listdir(submit_dir)
@@ -109,6 +152,13 @@ def main(submit_dir,
                 print(i)
             print("Please remove these or use a different outdir!")
             sys.exit(1)
+
+
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    print('no error at submitHistoFiller_lxplus.py (5)')
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
+
 
     create_dir(submit_dir)
     condor_out = os.path.join(submit_dir, 'out')
@@ -133,16 +183,37 @@ def main(submit_dir,
                             executable=postscript_path,
                             out_dir=condor_out,
                             err_dir=condor_err)
-    dagfile = os.path.join('/afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/', submit_dir, 'filler.dag')
+#    dagfile = os.path.join('/afs/cern.ch/user/g/gylee/bb_tautau/CMSSW_11_1_9/src/KLUBAnalysis/', submit_dir, 'filler.dag')
+
+#    dagfile = os.path.join(submit_dir, 'filler.dag')
+#    write_dagfile(dagfile=dagfile,
+#                  njobs=njobs,
+#                  submit_file=submit_file_path,
+#                  postscript_submit=postscript_submit_path)
+#    if not os.path.exists(submit_dir):
+#        print("{} does not exist. Creating now".format(submit_dir))
+#        os.makedirs(submit_dir)
+
+
+    dagfile = os.path.join(submit_dir, 'filler.dag')
     write_dagfile(dagfile=dagfile,
                   njobs=njobs,
                   submit_file=submit_file_path,
                   postscript_submit=postscript_submit_path)
+
+
+
+
     if not dry:
         os.chdir(submit_dir)
         launch_command = 'condor_submit_dag {}'.format(dagfile)
         print('The following command was run: {}'.format(launch_command))
         os.system(launch_command)
+
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+    print('no error at submitHistoFiller_lxplus.py (6)')
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
 
 
 if __name__ == "__main__":
