@@ -16,6 +16,8 @@
 
 using namespace std;
 
+//  cerr<<"### config_parser.cc opened ###"<<endl;
+
 int yylex();
 int yyerror(char *m);
 

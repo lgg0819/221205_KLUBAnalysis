@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <sstream>
 
+using namespace std;
 
 BTagEntry::Parameters::Parameters(
   OperatingPoint op,
@@ -28,6 +29,8 @@ BTagEntry::Parameters::Parameters(
   discrMin(discr_min),
   discrMax(discr_max)
 {
+  cerr<<"### BTagCalibrationStandalone.cc opened ###"<<endl;
+
   std::transform(measurementType.begin(), measurementType.end(),
                  measurementType.begin(), ::tolower);
   std::transform(sysType.begin(), sysType.end(),

@@ -31,6 +31,8 @@ extern int yydebug;
 //! Constructor which does basically nothing
 ConfigParser::ConfigParser()
 {
+  cerr<<"### ConfigParser.cc opened ###"<<endl;
+
   config_file = 0;
 }
 //! Initialize configuration using the command line arguments

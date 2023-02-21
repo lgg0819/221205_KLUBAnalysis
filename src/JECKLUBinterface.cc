@@ -2,9 +2,13 @@
 
 #define DEBUG false
 
+using namespace std;
+
 // Constructor
 JECKLUBinterface::JECKLUBinterface (std::string year, bool isPostVFP)
 {
+  cerr<<"### JECKLUBinterface.cc opened ###"<<endl;
+
   // Get the correct txt file and set the uncertainty names
   std::string TXTfile;
   if (year == "2016" && !isPostVFP)

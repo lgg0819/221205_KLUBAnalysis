@@ -2,9 +2,13 @@
 
 #define DEBUG false
 
+using namespace std;
+
 // Constructor
 PuJetIdSF::PuJetIdSF (std::string directory, std::string year)
 {
+
+  cerr<<"### PuJetIdSF.cc is opened ###"<<endl;
 
   // UL: single file for all periods, and for efficiencies, SFs, and unc. 
   std::string nf = directory + "/PUID_106XTraining_ULRun2_EffSFandUncties_v1.root";

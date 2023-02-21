@@ -8,8 +8,13 @@
 // channel, kl
 
 // Constructor
+using namespace std;
+
 BDTKLUBinterface::BDTKLUBinterface (std::string weights, std::vector<float> target_kls)
 {
+
+  cerr<<"### BDTKLUBinterface.cc opened ###"<<endl;
+
   // Store target lambdas
   target_kls_ = target_kls;
 

@@ -5,6 +5,8 @@ using namespace std;
 
 triggerReader::triggerReader (TH1F* inputHisto)
 {
+  cerr<<"### triggerReader.cc is opened ###"<<endl;
+
   _allTriggers.clear();
   int nbins = inputHisto->GetNbinsX();
   int binstoskip = 3; // skip fist bintoskip bins as they don;t contain trigger info but other stuff

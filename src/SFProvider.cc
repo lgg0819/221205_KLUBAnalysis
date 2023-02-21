@@ -3,12 +3,16 @@
 #include <algorithm>
 #include <sstream>
 
+//using namespace std;
+
 namespace tau_trigger {
 
   const std::set<int> SFProvider::supported_decay_modes = { 0, 1, 10, 11 };
 
   SFProvider::SFProvider(std::string_view input_file, std::string_view channel, std::string_view wp)
   {
+//    cerr<<"### SFProvider.cc is opened ##"<<endl;
+
     TFile root_file(input_file.data(), "READ");
     if(root_file.IsZombie()) {
       std::ostringstream ss;
@@ -35,6 +39,8 @@ namespace tau_trigger {
       }
     }
   }
+
+
 
   float SFProvider::getEfficiencyData(float tau_pt, int tau_dm, int unc_scale) const
   {
@@ -88,3 +94,12 @@ namespace tau_trigger {
   }
 
 } // namespace tau_trigger
+
+/*
+SFProvider_for_cerr::SFProvider_for_cerr()
+{
+  using namespace std;
+
+  cerr<<"### SFProvider.cc is opened ##"<<endl;
+}
+*/

@@ -1,6 +1,6 @@
 #include "utils.h"
 
-//using namespace std ;
+using namespace std ;
 
 
 mysample::mysample (TString theSampleName, TString theSampleFileName,
@@ -8,6 +8,8 @@ mysample::mysample (TString theSampleName, TString theSampleFileName,
   sampleName (theSampleName),
   sampleFileName (theSampleFileName)
 {
+  cerr<<"### utils.cc is opened ###"<<endl;
+
   sampleFile = new TFile (sampleFileName, readingOption) ;
   sampleTree = (TTree *) sampleFile->Get (treeName) ;
   calcEfficiency () ;

@@ -2,8 +2,12 @@
 
 #define DEBUG false
 
+using namespace std;
+
 HHReweight5D::HHReweight5D(std::string coeffFile, const TH2* hInput, std::string EFTBMname, std::string year, std::string order, std::string uncertantie, bool cms_fake, bool useAbsEta)
 {
+  cerr<<"### HHReweight5D.cc opened ###"<<endl;
+
   // clone the input histogram
   TH2* cloneH = (TH2*) hInput->Clone("h_input");
 

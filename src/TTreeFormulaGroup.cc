@@ -8,7 +8,14 @@
 #include "TTreeFormulaGroup.h"
 #include <TIterator.h>
 
+#include <iostream>
+
+using namespace std;
+
 TTreeFormulaGroup::TTreeFormulaGroup(bool setOwner) {
+
+//  cerr<<"### TTreeFormulaGroup.cc is opended ###"<<endl;
+
   tlist = new TList();
   tlist->SetOwner(setOwner);
 }
@@ -45,5 +52,7 @@ bool TTreeFormulaGroup::UnsetNotify(TTreeFormula *ttf) {
 }
 
 TTreeFormulaGroup::~TTreeFormulaGroup() {
+  cerr<<"### TTreeFormulaGroup.cc is opended ###"<<endl;
+
   delete tlist;
 }

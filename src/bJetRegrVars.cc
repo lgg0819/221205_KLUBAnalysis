@@ -1,7 +1,11 @@
 #include "bJetRegrVars.h"
 
+using namespace std;
+
 void bJetRegrVars::setReader (TMVA::Reader* reader)
 {
+  cerr<<"### bJetRegrVar.cc opened ###"<<endl;
+
   reader->AddVariable("Jet_pt", &Jet_pt);
   reader->AddVariable("Jet_corr", &Jet_corr);
   reader->AddVariable("rho", &rho);

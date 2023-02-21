@@ -1,5 +1,6 @@
 #include "plotContainer.h"
 
+using namespace std;
 
 plotContainer::plotContainer (std::string name) :
   m_name   (name),
@@ -21,6 +22,8 @@ plotContainer::plotContainer (std::string name, std::vector<std::string> varList
   m_Nsample (sampleList.size ()),
   m_histosType (histosType)
 {
+  cerr<<"### plotContainer.cc is opened ###"<<endl;
+
   std::vector<std::pair<std::string,std::string>> varList2D (0); // empty vec
   createHistos (varList, varList2D, cutList, sampleList) ;
 }

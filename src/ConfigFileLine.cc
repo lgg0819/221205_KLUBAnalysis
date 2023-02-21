@@ -31,6 +31,8 @@
 using namespace std;
 ConfigFileLine::ConfigFileLine(const string &o, const string &v)
 {
+  cerr<<"### ConfigFileLine.cc opened ###"<<endl;
+
   option=o;
   if( v.length())
     values.push_back(v);

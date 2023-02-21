@@ -30,7 +30,12 @@
 
 #define CHECK_EMPTY(COND, EXPR) ((COND) ? (EXPR) : (hmc::features::EMPTY))
 
+using namespace std;
+
 class FeatureProvider {
+
+//  cerr<<"### MulticlassInference.cc opened ###"<<endl;
+
 public:
   FeatureProvider(int year, TTree *inTree);
 
@@ -233,6 +238,8 @@ private:
 };
 
 FeatureProvider::FeatureProvider(int year, TTree *tree) : year_(year) {
+  cerr<< "### MulticlassInterface.cc is opened ###" <<endl;
+
   // define names of variables to read
   std::vector<std::string> boolNames = {};
   std::vector<std::string> intNames = {"pairType"};

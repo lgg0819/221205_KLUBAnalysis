@@ -7,6 +7,8 @@ HistoManager::HistoManager (const char* tag) : _tag (tag) {}
 
 HistoManager::~HistoManager()
 {
+  cerr<<"### HistoManager.cc opened ###"<<endl;
+
   // delete all allocated objs
   // for this, always store pointers to studd allocated on the heap!!
 

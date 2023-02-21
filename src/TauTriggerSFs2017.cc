@@ -7,6 +7,8 @@
 #include <assert.h> // assert
 #include <cmath> // std::sqrt
 
+using namespace std;
+
 const TH1* loadTH1(const TFile* inputFile, const std::string& histogramName)
 {
   const TH1* histogram = dynamic_cast<TH1*>((const_cast<TFile*>(inputFile))->Get(histogramName.data()));
@@ -64,6 +66,8 @@ TauTriggerSFs2017::TauTriggerSFs2017(const std::string& inputFileName, const std
     tauWP_(tauWP),
     wpType_(wpType)
 {
+  cerr<<"### TauTriggerSFs2017.cc is opended ###"<<endl;
+
   inputFile_ = new TFile(inputFileName_.data());
   if ( !inputFile_ ) {
     std::cerr << "Failed to open input file = '" << inputFileName_ << "' !!" << std::endl;

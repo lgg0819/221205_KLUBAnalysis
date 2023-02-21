@@ -14,6 +14,8 @@ using namespace std;
 
 HHReweight::HHReweight(std::string coeffFile, const TH2* hInput)
 {
+  cerr<<"### HHReweight.cc opened ###"<<endl;
+
   readInputFile(coeffFile); // initialize the reweight parameters from the txt input
 
   // clone the input histogram

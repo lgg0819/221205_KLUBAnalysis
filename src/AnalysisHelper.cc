@@ -14,6 +14,8 @@ using namespace std;
 
 AnalysisHelper::AnalysisHelper(string cfgname)
 {
+  cerr<<"### AnalysisHelper.cc opened ###"<<endl;
+
   TH1::SetDefaultSumw2(true);
 
   nominal_name_ = "NOMINAL"; // used for nominal systematics
@@ -21,9 +23,22 @@ AnalysisHelper::AnalysisHelper(string cfgname)
   nsplit_   = 1; // default: only 1 job
   idxsplit_ = 0;
 
-  cout << "@@ Parsing main config : " << cfgname << endl;
+//  cout << "@@ Parsing main config : " << cfgname << endl;
+  cerr<<"@@ Parsing main config : " << cfgname << endl;
+  cerr<< "no error in AnalysisHelper 0" << endl;
+
   mainCfg_ = unique_ptr<CfgParser>(new CfgParser(cfgname));
+
+  cerr<<"@@ mainCfg_ : "<< mainCfg_.get() <<" @@"<<endl;
+
+//  cerr<<"@@ cutCfg : "<<*hasOpt("configs::cutCfg")<<endl;
+//  cerr<<"@@ sampleCfg : "<<*hasOpt("configs::sampleCfg")<<endl;
+
   bool success = readMainInfo();
+//  cerr<< "no error in AnalysisHelper 1" << endl;
+
+
+  cerr<<"bool success : "<<success<<endl;
   if (!success)
     cerr << "** AnalysisHelper : error : some information could not be retrieved from config" << endl;
 }
@@ -33,15 +48,28 @@ AnalysisHelper::~AnalysisHelper()
 
 bool AnalysisHelper::readMainInfo()
 {
+//  cerr << "no error 2" << endl;
+//  cerr<<"@@ CfgParser& : "<<CfgParser[0]<<"@@"<<endl;
+  cerr<<"@@ cutCfg : "<<mainCfg_->hasOpt("configs::cutCfg")<<" @@"<<endl;
+  cerr<<"@@ sampleCfg : "<<mainCfg_->hasOpt("configs::sampleCfg")<<" @@"<<endl;
+
+  cerr<< "no error in AnalysisHelper 1" << endl;
+
+
+//  if (!mainCfg_->hasOpt("configs::cutCfg") || !mainCfg_->hasOpt("configs::sampleCfg"))
   if (!mainCfg_->hasOpt("configs::cutCfg") || !mainCfg_->hasOpt("configs::sampleCfg"))
   {
     cerr << "** AnalysisHelper : error : configs for sample and cut not provided in main cfg" << endl;
+    cerr<< "no error 2-1" << endl;
     return false;
+    cerr<< "no error 2-2" << endl;
   }
+
+  cerr<< "no error 2-3" << endl;
   string sampleCfgName = mainCfg_->readStringOpt("configs::sampleCfg");
   string cutCfgName = mainCfg_->readStringOpt("configs::cutCfg");
-  cout << "@@ sample cfg          : " << sampleCfgName << endl;
-  cout << "@@ selection cfg       : " << cutCfgName << endl;
+  cerr << "@@ sample cfg          : " << sampleCfgName << endl;
+  cerr << "@@ selection cfg       : " << cutCfgName << endl;
 
   cutCfg_ = unique_ptr<CfgParser>(new CfgParser(cutCfgName));
   sampleCfg_ = unique_ptr<CfgParser>(new CfgParser(sampleCfgName));
@@ -75,12 +103,16 @@ bool AnalysisHelper::readMainInfo()
       }
     }
   }
-
+  cerr<< "no error 3"<<endl;
   return true;
 }
 
 void AnalysisHelper::saveOutputsToFile()
 {
+//  cerr<< "no error 4"<<endl;
+
+  cerr<< "no error in AnalysisHelper 2" << endl;
+
   string outFile = outputFolder_ + "/" + outputFileName_ ;
   cout << "@@ Saving all plots to file : " << outFile << endl;
   system (Form("mkdir %s", outputFolder_.c_str())); // not checking if already exists, but return message is harmless
@@ -152,6 +184,7 @@ void AnalysisHelper::saveOutputsToFile()
 
 void AnalysisHelper::readSamples()
 {
+  cerr<< "no error in AnalysisHelper 3" << endl;
   vector<string> dataSampleNameList = mainCfg_->readStringListOpt("general::data");
   vector<string> sigSampleNameList  = mainCfg_->readStringListOpt("general::signals");
   vector<string> bkgSampleNameList  = mainCfg_->readStringListOpt("general::backgrounds");
@@ -200,10 +233,18 @@ void AnalysisHelper::readSamples()
 
 shared_ptr<Sample> AnalysisHelper::openSample(string sampleName)
 {
+  cerr<< "no error in AnalysisHelper 4" << endl;
+
   if (DEBUG) cout << " ..........DEBUG: entering AnalysisHelper::openSample for sample " << sampleName << endl;
 
   string filename = sampleCfg_->readStringOpt(Form("samples::%s",sampleName.c_str()));
   string sampleCfgName = mainCfg_->readStringOpt("configs::sampleCfg");
+
+  cerr<<"------------------------------------------------------------------"<<endl;
+  cerr<<"filename : "<<filename<<endl;
+  cerr<<"sampleCfgName : "<<sampleCfgName<<endl;
+  cerr<<"------------------------------------------------------------------"<<endl;
+
   string list_pattern = "goodfiles";
   if (mainCfg_->hasOpt("configs::pattern")){
     list_pattern = mainCfg_->readStringOpt("configs::pattern");
@@ -247,18 +288,32 @@ shared_ptr<Sample> AnalysisHelper::openSample(string sampleName)
 
 void AnalysisHelper::readSelections()
 {
+  cerr<< "no error in AnalysisHelper 5" << endl;
+//  cerr<< "@@ selListNames : "<<selListNames<<" @@"<<endl;
   if (DEBUG) cout << " ..........DEBUG: entering AnalysisHelper::readSelections" << endl;
 
   vector<string> selListNames = mainCfg_->readStringListOpt("general::selections");
   vector<Selection> selList;
+//  cerr<< "@@ selListNames : "<<*selListNames<<" @@"<<endl;
   cout << "@@ Selections : reading selections : ";
+
+//  for (int ii = 0; ii < 20; ii++)
+//  {
+   cerr<< "@@ selListNames : "<< selListNames.at(0)  <<" @@"<<endl;
+//   cerr<< "@@ selListNames : "<< selListNames.at(1)  <<" @@"<<endl;
+//   cerr<< "@@ selListNames : "<< selListNames.at(2)  <<" @@"<<endl;
+
+//  }
+
+
   for (string sel : selListNames)
   {
     cout << " " << sel;
+    cerr << "@@ Selections : reading selections : @@" << sel << endl;
     selList.push_back(readSingleSelection(sel));
   }
   cout << endl;
-
+//  cerr << endl;
 
 
   vector<string> CRListNames = mainCfg_->readStringListOpt("general::regions");
@@ -293,6 +348,8 @@ void AnalysisHelper::readSelections()
 
 void AnalysisHelper::readVariables()
 {
+  cerr<< "no error in AnalysisHelper 6" << endl;
+
   if (mainCfg_->hasOpt("general::variables"))
   {
     variables_ = mainCfg_->readStringListOpt("general::variables");
@@ -321,6 +378,8 @@ void AnalysisHelper::readVariables()
 
 void AnalysisHelper::prepareSamplesHistos()
 {
+  cerr<< "no error in AnalysisHelper 7" << endl;
+
   // to loop all in once
   vector <sampleColl*> allToInit;
   allToInit.push_back(&data_samples_);
@@ -483,6 +542,8 @@ void AnalysisHelper::prepareSamplesHistos()
 
 void AnalysisHelper::prepareSamples2DHistos()
 {
+  cerr<< "no error in AnalysisHelper 8" << endl;
+
   // to loop all in once
   vector <sampleColl*> allToInit;
   allToInit.push_back(&data_samples_);
@@ -647,6 +708,8 @@ void AnalysisHelper::prepareSamples2DHistos()
 
 vector<pair<string, string> > AnalysisHelper::readWeightSysts(std::string name, std::string section)
 {
+  cerr<< "no error in AnalysisHelper 9" << endl;
+
   vector<pair<string, string>> systs;
   if (!cutCfg_->hasOpt(Form("%s::%s", section.c_str(), name.c_str())))
   {
@@ -679,6 +742,8 @@ vector<pair<string, string> > AnalysisHelper::readWeightSysts(std::string name, 
 
 Selection AnalysisHelper::readSingleSelection (std::string name)
 {
+  cerr<< "no error in AnalysisHelper 10" << endl;
+
   if (!cutCfg_->hasOpt(Form("selections::%s",name.c_str())))
   {
     cerr << "** AnalysisHelper : readSingleSelection : error : could not find selection " << name << endl;
@@ -729,6 +794,8 @@ Selection AnalysisHelper::readSingleSelection (std::string name)
 
 void AnalysisHelper::printSelections(bool printWeights, bool printSysts)
 {
+  cerr<< "no error in AnalysisHelper 11" << endl;
+
   cout << "@@ Selection list ------- " << endl;
   for (unsigned int i = 0; i < selections_.size(); ++i)
   {
@@ -767,6 +834,8 @@ void AnalysisHelper::printSelections(bool printWeights, bool printSysts)
 
 void AnalysisHelper::printSamples(bool printWeights, bool printSysts)
 {
+  cerr<< "no error in AnalysisHelper 12" << endl;
+
   cout << "@@ Samples list ------- " << endl;
   cout << "   Data:" << endl;
   for (unsigned int i = 0; i < data_samples_.size(); ++i)

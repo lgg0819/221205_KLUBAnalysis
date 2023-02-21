@@ -1,8 +1,11 @@
 // https://github.com/CMS-HTT/LeptonEff-interface.git
 #include "ScaleFactor.h"
 
+using namespace std;
 
 void ScaleFactor::init_ScaleFactor(TString inputRootFile){
+
+  cerr<<"### ScaleFactor.cc is opened ##"<<endl;
 
   TFile * fileIn = new TFile(inputRootFile, "read");
   // if root file not found

@@ -11,6 +11,8 @@ EffCounter::~EffCounter()
 
 bool EffCounter::AddMarker(string mname)
 {
+  cerr<<"### EffCounter.cc opened ###"<<endl;
+
   if (find(insertedMarkers_.begin(), insertedMarkers_.end(), mname) != insertedMarkers_.end())
     return false;
 

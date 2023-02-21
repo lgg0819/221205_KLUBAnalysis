@@ -4,6 +4,8 @@ using namespace std;
 
 tauTrigSFreader::tauTrigSFreader(std::string rfilename)
 {
+  cerr<<"### tauTrigSFreader.cc is opened ###"<<endl;
+
   fIn_ = new TFile(rfilename.c_str());
 
   fMC_[0] = (TF1*) fIn_->Get("mediumMVAIso_eff_MC_DM0");

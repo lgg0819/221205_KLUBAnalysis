@@ -1,10 +1,15 @@
 #include "DNNKLUBinterface.h"
 
+using namespace std;
+
 // Constructor
 DNNKLUBinterface::DNNKLUBinterface (std::string model_dir, std::vector<std::string> requested, std::vector<float> target_kls)
   : wrapper_(model_dir, 1, false),
     evt_proc_(false, requested, true)
 {
+ 
+  cerr<<"### DNNKLUBinterface.cc opened ###"<<endl;
+
   // Store target lambdas
   target_kls_ = target_kls;
 }

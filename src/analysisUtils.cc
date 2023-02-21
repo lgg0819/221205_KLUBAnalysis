@@ -1,12 +1,15 @@
 #include "analysisUtils.h"
 #include <algorithm>
 
-//using namespace std ;
+using namespace std ;
 
 
 std::vector<std::pair <TString, TCut> >
 addSelection (std::vector<std::pair <TString, TCut> > m_cuts, std::string cut, std::string tag)
 {
+  cerr<<"### analysisUtils.cc opened ###"<<endl;
+
+
   std::vector<std::pair <TString, TCut> > output = m_cuts ;
   for (unsigned int i = 0 ; i < output.size () ; ++i)
   {

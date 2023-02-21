@@ -4,6 +4,7 @@
 #include <assert.h> // assert
 
 
+using namespace std;
 
 TFile* ensureTFile(const TString filename, bool verbose=false){
   if(verbose)
@@ -44,6 +45,8 @@ void TauIDSFTool::disabled() const {
 
 
 TauIDSFTool::TauIDSFTool(const std::string& year, const std::string& id, const std::string& wp, const bool dm, const bool embedding): ID(id), WP(wp){
+
+  cerr<<"### TauIDSFTool.cc is opened ###"<<endl;
 
   bool verbose = false;
   std::string datapath                = Form("%s/src/KLUBAnalysis/weights/tau_ID_ScaleFactors_UL",getenv("CMSSW_BASE"));

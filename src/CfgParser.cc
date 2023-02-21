@@ -1,10 +1,17 @@
 #include "CfgParser.h"
 #include <fstream>
+#include "Sample.h"
 
 
+//cerr<<"no error 1"<<endl;
 using namespace std;
 CfgParser::CfgParser()
 {
+  cerr<<"### CfgParser.cc opened ###"<<endl;
+  cerr<< "no error in CfgParser 1" << endl;
+//  cerr<<"### Sample : "<<&sample<<" ###"<<endl;
+
+
   lSecBlockSymb_ = "["; // regexp style
   rSecBlockSymb_ = "]"; // regexp style
   optAssignSymb_ = "=";
@@ -16,6 +23,7 @@ CfgParser::CfgParser()
 CfgParser::CfgParser(string filename) :
   CfgParser()
 {
+ cerr<< "no error in CfgParser 2" << endl;
   init(filename);
 }
 
@@ -24,6 +32,8 @@ CfgParser::~CfgParser()
 
 bool CfgParser::init(string filename)
 {
+   cerr<< "no error in CfgParser 3" << endl;
+
   ifstream cfgfile (filename);
   if(!cfgfile.is_open())
   {
@@ -31,6 +41,8 @@ bool CfgParser::init(string filename)
     return false;
   }
   filename_ = filename;
+
+  cerr<<"@@@@ filename : "<<filename_<<" @@@@"<<endl;
 
   string line;
   string currsect = "";
@@ -92,6 +104,8 @@ bool CfgParser::init(string filename)
 
 bool CfgParser::extend(CfgParser& cfg)
 {
+   cerr<< "no error in CfgParser 4" << endl;
+
   // consistency check: no common section key must exist
   for (auto elem : cfg.getCfg())
   {
@@ -107,22 +121,32 @@ bool CfgParser::extend(CfgParser& cfg)
 
 void CfgParser::trimLine(string& line)
 {
+   cerr<< "no error in CfgParser 5" << endl;
+
   if (line.empty()) return;
   line = getTrimmedLine(line);
+  cerr << "line : " << line << endl;
   return;
 }
 
 string CfgParser::getTrimmedLine(const string& line)
 {
+   cerr<< "no error in CfgParser 6" << endl;
+
   if (line.empty()) return line;
   size_t first = line.find_first_not_of(" \t");
   size_t last  = line.find_last_not_of(" \t");
   string res = (first != string::npos ? line.substr(first, (last-first+1)) : ""); // if all whitespaces, return empty string
+
+  cerr<<"@@@@@@@ res : "<<res<<" @@@@@@@"<<endl;
+
   return res;
 }
 
 pair<string, string> CfgParser::splitOptionLine(string line)
 {
+   cerr<< "no error in CfgParser 7" << endl;
+
   auto delim = line.find(optAssignSymb_);
   string optName = line.substr(0, delim);
   string optVal  = line.substr(delim+optAssignSymb_.length(), string::npos);
@@ -131,6 +155,8 @@ pair<string, string> CfgParser::splitOptionLine(string line)
 
 pair<string, string> CfgParser::splitCompact (string compact)
 {
+   cerr<< "no error in CfgParser 8" << endl;
+
   string sep = "::";
   auto delim = compact.find(sep);
   if (delim == string::npos)
@@ -145,6 +171,8 @@ pair<string, string> CfgParser::splitCompact (string compact)
 
 std::vector<string> CfgParser::splitStringInList(std::string line)
 {
+   cerr<< "no error in CfgParser 9" << endl;
+
   vector<string> result;
   if (endsWith(line, optListSepSymb_) )
   {
@@ -167,6 +195,8 @@ std::vector<string> CfgParser::splitStringInList(std::string line)
 
 std::vector<pair<string,string> > CfgParser::splitStringWithValInList(std::string line)
 {
+  cerr<< "no error in CfgParser 10" << endl;
+
   vector<pair <string, string > > result;
   if (endsWith(line, optListSepSymb_) )
   {
@@ -200,15 +230,21 @@ std::vector<pair<string,string> > CfgParser::splitStringWithValInList(std::strin
 
 bool CfgParser::endsWith (string line, string suffix)
 {
+  cerr<< "no error in CfgParser 11" << endl;
+
   return line.size() >= suffix.size() &&
     line.compare(line.size() - suffix.size(), suffix.size(), suffix) == 0;
 }
 
 string CfgParser::readStringOpt(string section, string option)
 {
+  cerr<< "no error in CfgParser 12" << endl;
+
   if (!hasOpt (section, option))
   {
+    cerr << "hasOpt : "<<hasOpt(section, option)<<endl;
     cerr << "** CfgParser: option " << section << "::" << option << " not defined" << endl;
+//    cerr << "hasOpt : "<<hasOpt<<endl;
     return string("");
   }
   return config_[section][option];
@@ -216,24 +252,29 @@ string CfgParser::readStringOpt(string section, string option)
 
 string CfgParser::readStringOpt(string compact)
 {
+  cerr<< "no error in CfgParser 13" << endl;
+
   auto split = splitCompact(compact);
   return readStringOpt(split.first, split.second);
 }
 
 int CfgParser::readIntOpt(string section, string option)
 {
+  cerr<< "no error in CfgParser 14" << endl;
   string s = readStringOpt(section, option);
   return stoi(s);
 }
 
 int CfgParser::readIntOpt(string compact)
 {
+  cerr<< "no error in CfgParser 15" << endl;
   auto split = splitCompact(compact);
   return readIntOpt(split.first, split.second);
 }
 
 bool CfgParser::readBoolOpt(string section, string option)
 {
+    cerr<< "no error in CfgParser 16" << endl;
   string s = readStringOpt(section, option);
   // return stoi(s);
   if (s == "true" || s == "True") return true;
@@ -244,12 +285,16 @@ bool CfgParser::readBoolOpt(string section, string option)
 
 bool CfgParser::readBoolOpt(string compact)
 {
+  cerr<< "no error in CfgParser 17" << endl;
+
   auto split = splitCompact(compact);
   return readBoolOpt(split.first, split.second);
 }
 
 float CfgParser::readFloatOpt(string section, string option)
 {
+  cerr<< "no error in CfgParser 18" << endl;
+
   string s = readStringOpt(section, option);
   return stof(s);
 }
@@ -402,6 +447,12 @@ bool CfgParser::hasOpt (std::string section, std::string option)
 {
   trimLine(section);
   trimLine(option);
+
+//  cerr<<"## find section : "<<trimLine(section)<<"  ##  "<<endl;
+//  cerr<<"## find option : "<<trimLine(option)<<"  ##  "<<endl;
+
+//  cerr<<"config_.find(section) : "<<config_.find(section)&<<endl;
+
   if (config_.find(section) == config_.end()) return false;
   if (config_[section].find(option) == config_[section].end()) return false;
   return true;

@@ -13,6 +13,8 @@ using namespace std;
 
 triggerReader_cross::triggerReader_cross (TH1F* inputHisto)
 {
+  cerr<<"### triggerReader_cross.cc ###"<<endl;
+
   _allTriggers.clear();
   int nbins = inputHisto->GetNbinsX();
   int binstoskip = 3; // skip fist bintoskip bins as they don;t contain trigger info but other stuff

@@ -1,6 +1,10 @@
 #include "histoUtils.h"
 
+using namespace std;
+
 void avoidEmptyBins(TH1F* input){
+
+  cerr<<"### histoUtils.cc opened ###"<<endl;
 
   for (int iBin = 1 ; iBin < input->GetNbinsX () + 1 ; ++iBin){
     if(input->GetBinContent(iBin) <= 0){

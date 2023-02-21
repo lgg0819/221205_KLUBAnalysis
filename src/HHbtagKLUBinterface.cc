@@ -1,5 +1,7 @@
 #include "HHbtagKLUBinterface.h"
 
+using namespace std;
+
 // Constructor
 HHbtagKLUBinterface::HHbtagKLUBinterface (std::array<std::string, 2> models, int year)
   : HHbtagger_(models)
@@ -17,6 +19,8 @@ HHbtagKLUBinterface::~HHbtagKLUBinterface() {}
 void HHbtagKLUBinterface::SetInputValues(bigTree &theBigTree, std::vector<std::pair<float,int>> jets_and_sortPar, int channel,
 					 TLorentzVector tlv_tau1, TLorentzVector tlv_tau2, TLorentzVector tlv_tauH, TLorentzVector tlv_MET, unsigned long long event, std::map<int,double> jets_and_smearFactor)
 {
+  cerr<<"### HHbtagKLUBinterface.cc opened ###"<<endl;
+
   // Clear the vectors
   HHbtag_jet_pt_.clear();
   HHbtag_jet_eta_.clear();

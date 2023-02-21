@@ -20,6 +20,8 @@ using namespace std;
 Sample::Sample (string name, string filelistname, string treename, string histoname, int binEffDen)
 // Sample (name, treename)
 {
+  cerr<<"### Sample.cc is opened ##"<<endl;
+
   name_ = name;
   tree_ = new TChain (treename.c_str());
   //tree_ = unique_ptr<TChain>(new TChain(treename.c_str()));

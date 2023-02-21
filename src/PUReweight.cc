@@ -4,10 +4,14 @@
 #include <cstdlib>
 #include <fstream>
 
+using namespace std;
+
 // ---------------------------------------------
 // open input txt file and return a vector with PU weights
 std::vector<float> PUReweight::LoadExternalWeights (TString filename)
 {
+  cerr<<"### PUReweight.cc is opened ##"<<endl;
+
   std::vector<float> externalPUweights;
 
   //cout << "=== begin parser ===" << endl;

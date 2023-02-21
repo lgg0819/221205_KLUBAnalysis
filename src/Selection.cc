@@ -4,6 +4,8 @@ using namespace std;
 
 Selection::Selection(string name, TCut value, vector<Weight> weights, vector<Weight_ext> weights_ext)
 {
+  cerr<<"### Selection.cc is opened ##"<<endl;
+
   name_ = name;
   value_ = value;
   weights_ = weights;

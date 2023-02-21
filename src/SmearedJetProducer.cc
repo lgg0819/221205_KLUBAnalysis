@@ -3,9 +3,13 @@
 
 #define DEBUG false
 
+using namespace std;
+
 // Constructor
 SmearedJetProducer::SmearedJetProducer (std::string year, bool doSmearing, int variation, bool isPostVFP)
 {
+  cerr<<"### SmearedJetProducer.cc is opened ###"<<endl;
+
   // Enable the smearing procedure
   enabled_ = doSmearing;
 

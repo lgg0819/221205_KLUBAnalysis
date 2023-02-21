@@ -14,6 +14,8 @@ bTagSF::bTagSF(std::string SFfilename, std::string effFileName, std::string effH
   m_calib("DeepCSV", SFfilename.c_str()) ,
   m_year (year)
 {
+  cerr<<"### bTagSF.cc opened ###"<<endl;
+
   // Fill m_readers varray with year dependent names for reshaping uncertainties
   m_readers[0] = BTagCalibrationReader(BTagEntry::OP_LOOSE,  "central", {"up", "down"});
   m_readers[1] = BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central", {"up", "down"});
